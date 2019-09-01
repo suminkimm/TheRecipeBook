@@ -136,4 +136,8 @@
     .star:hover {
         color:gold;
     }
+
+    a {
+        color: cornflowerblue;
+    }
 </style>

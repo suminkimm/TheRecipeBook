@@ -59,6 +59,7 @@ require('header.php');
         background: transparent;
     }
 
+
 </style>
 
 
@@ -144,7 +145,7 @@ if ($_SESSION['valid'] == 1) {
     }
 
     if($author_id != $_SESSION['user_id']) {
-        echo "<h3 style='text-align:right;'> By " .$author_firstname. " " .$author_lastname. "</h3>";
+        echo "<h3 style='text-align:right;'> By <a href='profile.php?author_id=" .$author_id. "'>" .$author_firstname. " " .$author_lastname. "</a></h3>";
     }
     else { ?>
         <a href='edit_recipe.php?recipe_id=<?php echo $recipe_id; ?>' style="float:right; color:cornflowerblue;">Edit Recipe</a>

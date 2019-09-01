@@ -103,9 +103,19 @@ session_start();
     .dropdown:hover .dropdown-content-left {
         display:block;
     }
+
+    .home {
+        font-size: 20px;
+        color: salmon;
+        border: none;
+        background: transparent;
+    }
+
 </style>
 
-<h1> ---- The Recipe Book ----</h1>
+<div class="center">
+    <button class="home" onclick="window.location='main.php'"><h2> ---- The Recipe Book ----</h2></button>
+</div>
 <div class="navbar">
     <a class="active" href="main.php">Home</a>
         <div class="dropdown">

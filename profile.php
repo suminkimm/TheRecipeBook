@@ -5,9 +5,22 @@ require('config_db.php');
 require('config_css.php');
 require('header.php');
 
-$firstname = $_SESSION['first_name'];
-$lastname = $_SESSION['last_name'];
-$email = $_SESSION['email'];
+if($_GET['author_id'] != null) { // someone is viewing someone else's profile
+    $user_id = $_GET['author_id'];
+    $sql = "SELECT * FROM stuff.users WHERE user_id='$user_id'";
+    $result = mysqli_query($link, $sql);
+    while($row = $result->fetch_assoc()) {
+        $firstname = $row['first_name'];
+        $lastname = $row['last_name'];
+        $email = $row['email'];
+    }
+}
+else {
+    $firstname = $_SESSION['first_name'];
+    $lastname = $_SESSION['last_name'];
+    $email = $_SESSION['email'];
+}
+
 
 ?>
 
@@ -17,23 +30,71 @@ $email = $_SESSION['email'];
         text-align: center;
     }
 
-
+    td {
+        color:cornflowerblue;
+        font-size: 25px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+    }
     img {
-        padding: 70px;
-        width: 20%;
+        width: 18%;
         border-radius: 50%;
-        margin-left: auto;
-        margin-right: auto;
-        display:block;
+        float:left;
+        margin-left: 25%;
+        padding:50px;
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+        /*display:block;*/
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    button {
+        background-color: transparent;
+        border: none;
+        font-size: 20px;
+    }
+
+    .go:hover {
+        color:red;
     }
 </style>
 
 <?php
 
-echo "<img src=/images/login.png>";
-echo "<h1>".$firstname." ".$lastname."</h1>";
-echo "<h3>$email</h3>";
+//echo "<div style='float:left; margin-left: 10%; display: inline-block;'>";
+echo "<div class='clearfix'>";
+    echo "<img src=/images/login.png>";
+    echo "<h1 style='margin-right:25%; padding-top: 70px;'>".$firstname." ".$lastname."</h1>";
+    echo "<h3 style='margin-right:25%;'>$email</h3>";
+//echo "<div style='float:right; margin-right: 30%;'>";
+echo "</div>";
 
+
+
+$sql = "SELECT * FROM stuff.recipes WHERE user_id='$user_id' ORDER BY recipe_name asc";
+$result = mysqli_query($link, $sql);
+
+echo "<div style='clear:both'>";
+echo "<h1>Recipes</h1>";
+echo "<table align='center'>";
+echo "<ul>";
+while($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td><li>" .$row['recipe_name']. "</li></td>";
+    echo "<td>" .$row['prep_time']. "</td>";
+    echo "<td>" .$row['num_servings']. " servings</td>";
+    echo "<td><button class='go' style='color:salmon;' onclick=\"window.location='indiv_recipe.php?id=" .$row['recipe_id']. "'\"><i class='fas fa-arrow-circle-right'></i></button></td>";
+    echo "</tr>";
+}
+echo "</ul>";
+echo "</table>";
+echo "</div>";
 ?>
 
 <style>
